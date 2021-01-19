@@ -13,5 +13,4 @@ dfa = lis[0]
 for df in lis:
     print("listIndex",index)
     index +=1
-    print(df.head(1))
-    print(df.tail(1))
+    print(df.head(2))
