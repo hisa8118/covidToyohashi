@@ -97,13 +97,9 @@ dfOut["患者例"] = dfOut["患者例"].astype('uint')
 dfOut['採取日'] = dfOut[['患者例','採取日']].apply(lambda x: adjustDate(*x), axis = 1)
 dfOut = dfOut.sort_values(by="患者例",ascending=False)
 # %% クラスター情報の追加
-cl1 = "環境部収集業務課"
-cl2 = "高齢者施設"
-cl3 = "市内医療機関"
-df = pd.read_csv('ClusterInfo.csv')
-dfOut[cl1] = dfOut["患者例"].isin(df[cl1])
-dfOut[cl2] = dfOut["患者例"].isin(df[cl2])
-dfOut[cl3] = dfOut["患者例"].isin(df[cl3])
-
+df = pd.read_csv('cluster.csv')
+cl = df.columns
+for st in cl:
+    dfOut[st] = dfOut["患者例"].isin(df[st])  
 # %%xport All
 dfOut.to_excel('data/dataAll.xls', index=False)
