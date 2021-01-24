@@ -15,9 +15,9 @@ dfa = lis[0]
 # %% Main
 # 感染者データのみ読み込み
 for df in lis:
-    # print("listIndex",index)
+    print("listIndex",index)
     index +=1
-    # print(df.head(2))
+    print(df.head(2))
  # %% Soup
 html = requests.get(url)
 soup = BeautifulSoup(html.content, "html.parser")

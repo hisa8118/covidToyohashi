@@ -1,6 +1,7 @@
 # %% main
 import pandas as pd
 import numpy as np
+from pandas.core.frame import DataFrame
 import requests
 from bs4 import BeautifulSoup
 import re
@@ -103,3 +104,15 @@ for st in cl:
     dfOut[st] = dfOut["患者例"].isin(df[st])  
 # %%xport All
 dfOut.to_excel('data/dataAll.xls', index=False)
+# %% 患者IDの欠損チェック
+def checkdata(d:DataFrame):
+    print("checkData-------------")
+    d = d.sort_values(by="患者例",ascending=True)
+    dd = d.reset_index()
+    i2 = 1
+    for i1 in dd["患者例"]:
+        if(i1 != i2): print(i1,i2)
+        i2 +=1
+    return dd 
+dd = checkdata(dfOut)
+# %%
