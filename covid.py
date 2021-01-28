@@ -6,6 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import io
+import upload
 
 # %%  感染者データのみ読み込み
 url = 'https://www.city.toyohashi.lg.jp/41805.htm'
@@ -110,6 +111,7 @@ for st in cl:
 # %%xport All
 dfOut.to_excel('data/dataAll.xls', index=False)
 dfOut.to_csv('data/dataAll.csv', index=False)
+upload.uploadCsv()
 # %% 患者IDの欠損チェック
 def checkdata(d:DataFrame):
     print("checkData---")

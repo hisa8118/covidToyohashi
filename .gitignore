@@ -1,3 +1,4 @@
 *.seacret
 *.yaml
 test_*
+*.pyc
