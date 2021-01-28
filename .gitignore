@@ -2,3 +2,4 @@
 *.yaml
 test_*
 *.pyc
+credentials.json

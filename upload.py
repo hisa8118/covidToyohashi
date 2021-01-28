@@ -5,7 +5,7 @@ from pydrive.files import GoogleDriveFile
 import yaml
 import requests
 
-def uploadCsv():
+def uploadCsv(s:str):
     print("call uploadCsv")
     # upload csv file to GoogleDriveFile
     with open('settings.yaml') as file:
@@ -19,13 +19,18 @@ def uploadCsv():
     gauth.LocalWebserverAuth()
     drive = GoogleDrive(gauth)
 
-    f = drive.CreateFile({"parents": [{"id": directory_name}],"id":file_id,"title":file_name})
-    f.SetContentFile('data/dataAll.csv')
+    # f = drive.CreateFile({"parents": [{"id": directory_name}],"title":"testFinal.csv",'mimeType': 'text/csv'})
+    f = drive.CreateFile({"parents": [{"id": directory_name}],"id":file_id,"title":file_name,'mimeType': 'text/csv'})
+    if(s == ""):
+        f.SetContentFile('data/dataAll.csv')
+    else:
+        f.SetContentString(s)
     f.Upload()
     rt = requests.get(upload_api)
     print(rt)
+    # pprint.pprint(f)
 
 # %% main
-uploadCsv()
+# uploadCsv("")
 # print(f)
 # pprint.pprint(f)
