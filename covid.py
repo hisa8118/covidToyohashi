@@ -5,6 +5,7 @@ from pandas.core.frame import DataFrame
 import requests
 from bs4 import BeautifulSoup
 import re
+import io
 
 # %%  感染者データのみ読み込み
 url = 'https://www.city.toyohashi.lg.jp/41805.htm'
@@ -76,7 +77,6 @@ dfMain4[3] = pd.Series()
 # dfMain4[4] = dfMain4["発表日"] 
 dfMain4[4] = tmp[1].replace({'令和２年':''},regex=True)
 
-
 #%% ##データの整形
 def adjustDate(id,s:str):
     if(type(s) != str): return
@@ -98,15 +98,21 @@ dfOut["患者例"] = dfOut["患者例"].astype('uint')
 dfOut['採取日'] = dfOut[['患者例','採取日']].apply(lambda x: adjustDate(*x), axis = 1)
 dfOut = dfOut.sort_values(by="患者例",ascending=False)
 # %% クラスター情報の追加
-df = pd.read_csv('cluster.csv')
+# df = pd.read_csv('cluster.csv')
+url="https://script.google.com/macros/s/AKfycbz1udVFxPqvT4-kQb4M-7yx6zjXugS02vj5aZ7Cmzuc1yFW22FQoJLGPg/exec"
+s=requests.get(url).content
+df=pd.read_csv(io.StringIO(s.decode('utf-8')))
+df = df.fillna(0).astype(np.int64)
 cl = df.columns
 for st in cl:
-    dfOut[st] = dfOut["患者例"].isin(df[st])  
+     dfOut.loc[dfOut["患者例"].isin(df[st]),"クラスタ"] = st
+    # dfOut[st] = dfOut["患者例"].isin(df[st])  
 # %%xport All
 dfOut.to_excel('data/dataAll.xls', index=False)
+dfOut.to_csv('data/dataAll.csv', index=False)
 # %% 患者IDの欠損チェック
 def checkdata(d:DataFrame):
-    print("checkData-------------")
+    print("checkData---")
     d = d.sort_values(by="患者例",ascending=True)
     dd = d.reset_index()
     i2 = 1
@@ -114,5 +120,6 @@ def checkdata(d:DataFrame):
         if(i1 != i2): print(i1,i2)
         i2 +=1
     return dd 
+    print("end")
 dd = checkdata(dfOut)
-# %%
+# dfOut.iloc[[2,3,5]]# %%
