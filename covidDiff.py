@@ -31,8 +31,7 @@ def checkdata(d:DataFrame):
 # -------------------------------------
 # def main():
 url = 'https://www.city.toyohashi.lg.jp/41805.htm'
-dfs = pd.read_html(url)
-lis = [df for df in dfs if(len(df.columns) > 5)]
+lis = pd.read_html(url,match="患者例")
 # %% Soup
 html = requests.get(url)
 soup = BeautifulSoup(html.content, "html.parser")
@@ -52,13 +51,14 @@ for element in soup.find_all("h5"):
         except:
             pass
     if(len(l) > 1): datelist.append(l)
-datelist
+# datelist
 index = 0
 for i1 in datelist:
     lis[index].insert(0,"発表日",i1[-1])
     index += 1
+    if(i1[-1] == "2021/２/１"): break
 lis[-1].insert(0,"発表日","")
-# Format4 ID:1001以降のデータを抽出
+# Format4 ID:1001 2/2以降のデータを抽出
 dfMain = pd.concat(lis[:findIndex(1001,lis)+1])
 #todo クラスター情報の自動抽出 
 
