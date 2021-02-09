@@ -3,3 +3,4 @@
 test_*
 *.pyc
 credentials.json
+key.json
