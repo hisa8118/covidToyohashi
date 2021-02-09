@@ -6,7 +6,9 @@ from bs4 import BeautifulSoup
 import re
 import io
 import upload
-
+# -------------------------------------
+# 全データを抽出
+# -------------------------------------
 #旧データの整形
 def adjustData(adf: pd.DataFrame):
     adf = adf.drop(8,axis=1)
@@ -53,12 +55,9 @@ def checkdata(d:DataFrame):
 # -------------------------------------
 # MIAN
 # -------------------------------------
-
-# def main():
 url = 'https://www.city.toyohashi.lg.jp/41805.htm'
 dfs = pd.read_html(url)
 lis = [df for df in dfs if(len(df.columns) > 5)]
-# dfALL = pd.concat(lis, ignore_index=True)
 # %% Soup
 html = requests.get(url)
 soup = BeautifulSoup(html.content, "html.parser")
@@ -106,8 +105,7 @@ dfMain4[3] = pd.Series()
 dfMain4[4] = tmp[1].replace({'令和２年':''},regex=True)
 #todo クラスター情報の自動抽出 
 #%% ##採取日の整形
-dfOut = pd.concat([dfMain],ignore_index=True)
-# dfOut = pd.concat([dfMain,dfMain2,dfMain3,dfMain4],ignore_index=True)
+dfOut = pd.concat([dfMain,dfMain2,dfMain3,dfMain4],ignore_index=True)
 dfOut.columns = dfOut.loc[0]
 dfOut.rename(columns={dfOut.columns[0]:"発表日"},inplace=True) 
 dfOut = dfOut[dfOut["年代"] != "年代"]
@@ -119,7 +117,6 @@ dfOut["患者例"] = dfOut["患者例"].astype('uint64')
 dfOut['採取日'] = dfOut[['患者例','採取日']].apply(lambda x: adjustCollectionDate(*x), axis = 1)
 dfOut = dfOut.sort_values(by="患者例",ascending=False)
 # %% クラスター情報の追加
-# df = pd.read_csv('cluster.csv')
 url="https://script.google.com/macros/s/AKfycbz1udVFxPqvT4-kQb4M-7yx6zjXugS02vj5aZ7Cmzuc1yFW22FQoJLGPg/exec"
 s=requests.get(url).content
 df=pd.read_csv(io.StringIO(s.decode('utf-8')))
@@ -133,7 +130,3 @@ dfOut.to_csv('data/dataAll_Edit.csv', index=False)
 buf = dfOut.to_csv(index=False)
 # upload.uploadCsv(buf)
 dd = checkdata(dfOut)
-# dfOut.iloc[[2,3,5]]
-# %% MAIN
-dfOut2 = pd.DataFrame()
-# main()
