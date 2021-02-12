@@ -53,14 +53,12 @@ for element in soup.find_all("h5"):
         except:
             pass
     if(len(l) > 1): datelist.append(l)
-#2/1 id 1001以降のデータを抽出
+#2/12 仕様フォーマット変更によりアルゴリズム変更
 index = 0
 for i1 in datelist:
     lis[index].insert(0,"発表日",i1[-1])
     index += 1
-    if(i1[-1] == "2021/２/１"): break
-lis[-1].insert(0,"発表日","")
-dfMain = pd.concat(lis[:findIndex(1001,lis)+1])
+dfMain = pd.concat(lis)
 #todo クラスター情報の自動抽出 
 #%% ##採取日の整形
 dfOut = pd.concat([dfMain],ignore_index=True)

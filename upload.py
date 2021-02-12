@@ -27,8 +27,8 @@ def uploadCsv(s:str):
     else:
         f.SetContentString(s)
     f.Upload()
-    rt = requests.get(upload_api)
-    print(rt)
+    # rt = requests.get(upload_api)
+    # print(rt)
     # pprint.pprint(f)
 
 # %% main
