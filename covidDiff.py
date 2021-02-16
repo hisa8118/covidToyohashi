@@ -46,7 +46,7 @@ for element in soup.find_all("h5"):
     for x in match:
         if "月" in x:
             dd = x.translate(s.maketrans({'月':'/','日':''}))
-            y = "2021/" if (len(l) > 1 and l[0] > 441) else "2020/"
+            y = "2021/"
             l.append(y+dd)
         try:
             l.append(int(x))
