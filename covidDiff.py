@@ -60,7 +60,6 @@ for i1 in datelist:
     index += 1
     print(lis)
 dfMain = pd.concat(lis).dropna(how="any")
-#todo クラスター情報の自動抽出 
 #%% ##採取日の整形
 dfOut = pd.concat([dfMain],ignore_index=True)
 dfOut.columns = dfOut.loc[0]
@@ -70,15 +69,6 @@ dfOut = dfOut[dfOut["患者例"] != "患者例"]
 dfOut = dfOut.dropna(subset=["患者例"])
 dfOut["患者例"] = dfOut["患者例"].astype('uint64')
 dfOut = dfOut.sort_values(by="患者例",ascending=False)
-# %% クラスター情報の追加
-# df = pd.read_csv('data/cluster.csv')
-# url="https://script.google.com/macros/s/AKfycbz1udVFxPqvT4-kQb4M-7yx6zjXugS02vj5aZ7Cmzuc1yFW22FQoJLGPg/exec"
-# s=requests.get(url).content
-# df=pd.read_csv(io.StringIO(s.decode('utf-8')))
-# df = df.fillna(0).astype(np.int64)
-# cl = df.columns
-# for st in cl:
-#     dfOut.loc[dfOut["患者例"].isin(df[st]),"クラスタ"] = st
 # %%xport All
 # dfOut.to_excel('data/test_dataAll.xls', index=False)
 # dfOut.to_csv('data/test_dataAll.csv', index=False)
