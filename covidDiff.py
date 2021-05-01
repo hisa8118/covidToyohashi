@@ -20,13 +20,15 @@ def findIndex(id:int,lis:list):
         i +=1
 # 患者IDの欠損チェック
 def checkdata(d:DataFrame):
-    print("checkData---")
+    print("checkData--------")
     d = d.sort_values(by="患者例",ascending=True)
     dd = d.reset_index()
     i2 = 1
     for i1 in dd["患者例"]:
         if(i1 != i2+1000): print(i1,i2+1000)
         i2 +=1
+    print("check null data--------")
+    print(dfOut.info())
     print("end")
     return dd 
 # -------------------------------------
@@ -34,6 +36,7 @@ def checkdata(d:DataFrame):
 # -------------------------------------
 url = 'https://www.city.toyohashi.lg.jp/41805.htm'
 lis = pd.read_html(url,match="患者例")
+print(lis)
 # %% Soup
 html = requests.get(url)
 soup = BeautifulSoup(html.content, "html.parser")
@@ -58,8 +61,9 @@ index = 0
 for i1 in datelist:
     lis[index].insert(0,"発表日",i1[-1])
     index += 1
-    print(lis)
-dfMain = pd.concat(lis).dropna(how="any")
+# dfMain = pd.concat(lis)
+# dfMain = pd.concat(lis).dropna(how="any")  # 欠損値があれば行削除
+dfMain = pd.concat(lis).dropna(thresh=3, axis=1) # 欠損値3以上の列を削除する
 #%% ##採取日の整形
 dfOut = pd.concat([dfMain],ignore_index=True)
 dfOut.columns = dfOut.loc[0]
