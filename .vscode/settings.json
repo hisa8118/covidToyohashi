@@ -1,2 +1,6 @@
 {
+
+    "settings"{
+        "python.pythonPath": " /Users/takagihisayuki/opt/anaconda3"
+    }
 }
