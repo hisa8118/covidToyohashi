@@ -63,7 +63,7 @@ for i1 in datelist:
     index += 1
 # dfMain = pd.concat(lis)
 # dfMain = pd.concat(lis).dropna(how="any")  # 欠損値があれば行削除
-dfMain = pd.concat(lis).dropna(thresh=3, axis=1) # 欠損値3以上の列を削除する
+dfMain = pd.concat(lis).dropna(thresh=2, axis=1) # 欠損値2以上の列を削除する
 #%% ##採取日の整形
 dfOut = pd.concat([dfMain],ignore_index=True)
 dfOut.columns = dfOut.loc[0]
