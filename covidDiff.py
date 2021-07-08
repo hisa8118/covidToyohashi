@@ -36,6 +36,8 @@ def checkdata(d:DataFrame):
 # -------------------------------------
 url = 'https://www.city.toyohashi.lg.jp/41805.htm'
 lis = pd.read_html(url,match="患者例")
+# test with local file
+# lis = pd.read_html('parsehtml/20200502.html',match="患者例")
 print(lis)
 # %% Soup
 html = requests.get(url)
@@ -55,7 +57,8 @@ for element in soup.find_all("h5"):
             l.append(int(x))
         except:
             pass
-    if(len(l) > 1): datelist.append(l)
+    print(l)
+    if(len(l) > 0): datelist.append(l)
 #2/12 仕様フォーマット変更によりアルゴリズム変更
 index = 0
 for i1 in datelist:
